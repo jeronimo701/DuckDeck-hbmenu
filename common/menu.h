@@ -43,6 +43,17 @@ struct menu_s_tag
 
 typedef struct
 {
+    int columns;
+    int iconSize;
+} duckdeck_settings_s;
+
+extern duckdeck_settings_s duckdeckSettings;
+void duckdeckLoadSettings(void);
+void duckdeckApplyMenuLayout(void);
+int duckdeckGetFirstVisibleRow(menu_s *menu, int tileHeight);
+
+typedef struct
+{
     char* dst;
     uint32_t buf[ENTRY_ARGBUFSIZE/sizeof(uint32_t)];
     struct in_addr nxlink_host;

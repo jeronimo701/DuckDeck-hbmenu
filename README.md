@@ -1,3 +1,13 @@
+# DuckDeck hbmenu
+
+Публичный форк [switchbrew/nx-hbmenu](https://github.com/switchbrew/nx-hbmenu), основанный на v3.6.1 (`fd26270a4e4b6994886a57b0738d98229ab4094e`).
+
+Локальные изменения Jeronimo701: сетка приложений с настройкой числа столбцов и размера иконок через `config/nx-hbmenu/duckdeck.cfg`, скруглённые иконки, панель выбранного приложения, навигация и сенсорный выбор в сетке. Изменены `common/menu.c`, `common/menu.h`, `nx_main/main.c`, `nx_main/nx_touch.c`.
+
+Лицензия исходного hbmenu и модификаций — ISC, см. LICENSE.md. Исходная история и авторство сохранены. Этот перенос публикует исходники; проверка на физической Switch и готовый релиз не выполнялись.
+
+## Документация исходного проекта
+
 ### Usage
 See [Homebrew_Applications](https://switchbrew.org/wiki/Homebrew_Applications) for SD layout and applications, etc. See [Switchbrew](https://switchbrew.org/wiki/Homebrew_Menu) for hbmenu docs.
 

@@ -215,8 +215,7 @@ bool menuUpdate(void) {
     bool exitflag = 0;
     menu_s* menu = menuGetCurrent();
     u64 down = menuGetKeysDown();
-    ThemeLayoutObject *layoutobj = &themeCurrent.layoutObjects[ThemeLayoutId_MenuListTiles];
-    int entries_count = layoutobj->posEnd[0];
+    int entries_count = duckdeckSettings.columns;
 
     handleTouch(menu);
 
@@ -249,8 +248,8 @@ bool menuUpdate(void) {
 
         if (down & HidNpadButton_AnyLeft) move--;
         if (down & HidNpadButton_AnyRight) move++;
-        if (down & (HidNpadButton_AnyDown | HidNpadButton_ZL)) move-=entries_count;
-        if (down & (HidNpadButton_AnyUp | HidNpadButton_ZR)) move+=entries_count;
+        if (down & (HidNpadButton_AnyDown | HidNpadButton_ZL)) move+=entries_count;
+        if (down & (HidNpadButton_AnyUp | HidNpadButton_ZR)) move-=entries_count;
 
         int newEntry = menu->curEntry + move;
         if (newEntry < 0) newEntry = 0;

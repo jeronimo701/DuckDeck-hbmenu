@@ -19,19 +19,27 @@ void touchInit(void) {
     hidInitializeTouchScreen();
 }
 
-void handleTappingOnApp(menu_s* menu, int px) {
+void handleTappingOnApp(menu_s* menu, int px, int py) {
     int i = 0;
     menuEntry_s *me = NULL;
-    ThemeLayoutObject *layoutobj = &themeCurrent.layoutObjects[ThemeLayoutId_MenuList];
+    const int columns = duckdeckSettings.columns;
+    const int iconSize = duckdeckSettings.iconSize;
+    const bool isRootMenu = strcmp(menu->dirname, menuGetRootPath()) == 0;
+    const int tileHeight = iconSize + (isRootMenu ? 44 : 20);
+    const int tileWidth = iconSize + 20;
+    const int firstRow = duckdeckGetFirstVisibleRow(menu, tileHeight);
 
     for (me = menu->firstEntry, i = 0; me; me = me->next, i ++) {
-        int entry_start_x = layoutobj->posStart[0] + i * layoutobj->posEnd[0];
+        const int row = i / columns;
+        const int column = i % columns;
+        const int entry_start_x = 40 + column * (tileWidth + 22);
+        const int entry_start_y = 140 + (row - firstRow) * (tileHeight + 8);
 
-        int screen_width = 1280;
-        if (entry_start_x >= (screen_width - menu->xPos))
+        if (entry_start_y + tileHeight > 640)
             break;
 
-        if (px >= (entry_start_x + menu->xPos) && px <= (entry_start_x + menu->xPos) + layoutobj->size[0]) {
+        if (px >= entry_start_x && px <= entry_start_x + tileWidth && py >= entry_start_y && py <= entry_start_y + tileHeight) {
+            menu->curEntry = i;
             launchMenuEntryTask(me);
             break;
         }
@@ -118,8 +126,8 @@ void handleTouch(menu_s* menu) {
             }
         } else if (touchInfo.isTap && !netloader_active) {
             // App Icons
-            if (y1 > layoutobj->posStart[1] && y1 < layoutobj->posStart[1]+layoutobj->size[1]) {
-                handleTappingOnApp(menu, touchInfo.prevTouch.x);
+            if (y1 > 140 && y1 < 640) {
+                handleTappingOnApp(menu, touchInfo.prevTouch.x, touchInfo.prevTouch.y);
             }
             // Bottom Buttons
             else {
