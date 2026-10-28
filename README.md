@@ -1,43 +1,48 @@
 # DuckDeck hbmenu
 
-Публичный форк [switchbrew/nx-hbmenu](https://github.com/switchbrew/nx-hbmenu), основанный на v3.6.1 (`fd26270a4e4b6994886a57b0738d98229ab4094e`).
+Homebrew-меню для Nintendo Switch с сеткой приложений вместо стандартной ленты. Можно выбрать число столбцов и размер иконок; поддерживается навигация кнопками и сенсорный выбор.
 
-Локальные изменения Jeronimo701: сетка приложений с настройкой числа столбцов и размера иконок через `config/nx-hbmenu/duckdeck.cfg`, скруглённые иконки, панель выбранного приложения, навигация и сенсорный выбор в сетке. Изменены `common/menu.c`, `common/menu.h`, `nx_main/main.c`, `nx_main/nx_touch.c`.
+**Форк nx-hbmenu 3.6.1 · Nintendo Switch · ISC**
 
-Лицензия исходного hbmenu и модификаций — ISC, см. LICENSE.md. Исходная история и авторство сохранены. Этот перенос публикует исходники; проверка на физической Switch и готовый релиз не выполнялись.
+[Скачать предварительную сборку](https://github.com/jeronimo701/DuckDeck-hbmenu/releases/tag/v3.6.1-duckdeck-20261022) · [Сборка](BUILD-RELEASE.ru.md) · [Исходный проект](https://github.com/switchbrew/nx-hbmenu) · [Проблемы](https://github.com/jeronimo701/DuckDeck-hbmenu/issues)
 
-## Документация исходного проекта
+## Чем отличается от nx-hbmenu
 
-### Usage
-See [Homebrew_Applications](https://switchbrew.org/wiki/Homebrew_Applications) for SD layout and applications, etc. See [Switchbrew](https://switchbrew.org/wiki/Homebrew_Menu) for hbmenu docs.
+- Сетка приложений с настраиваемыми столбцами.
+- Скруглённые иконки и панель выбранного приложения.
+- Навигация и сенсорный выбор, адаптированные к сетке.
+- Настройки в `config/nx-hbmenu/duckdeck.cfg` на SD.
 
-### Download
-The latest release is available from the [releases](https://github.com/switchbrew/nx-hbmenu/releases/latest) page.
+Скриншот с физической Switch пока не добавлен: готовая сборка есть, но запуск на консоли отдельно не проверен. Изображение чужого меню вместо DuckDeck здесь не используется.
 
-### Building
-Build for the Nintendo Switch with ```make nx``` and for the PC with ```make pc```.
-Running ```make``` builds for both systems.
+## Как попробовать
 
-The following [pacman packages](https://devkitpro.org/wiki/devkitPro_pacman) are required to build for Switch:
-- `switch-dev`
-- `switch-freetype`
-- `switch-libconfig`
-- `switch-libjpeg-turbo`
-- `switch-physfs`
+1. Сохрани текущий `hbmenu.nro` и резервную копию SD на ПК.
+2. Скачай `DuckDeck-hbmenu.nro` из [релиза](https://github.com/jeronimo701/DuckDeck-hbmenu/releases/tag/v3.6.1-duckdeck-20261022).
+3. Для стандартного способа запуска hbmenu используй копию как `hbmenu.nro` в корне SD. Способ запуска зависит от твоей CFW.
+4. По желанию создай `config/nx-hbmenu/duckdeck.cfg`:
 
-The following libraries are required to build for PC:
-- `libfreetype`
-- `libconfig`
-- `libjpeg-turbo`
-- `libphysfs`
-- `sdl2`
+```text
+duckdeck = {
+    columns = 4;
+    iconSize = 96;
+};
+```
 
-Building for Switch/PC requires `zip`.
+Столбцы: **1–6**, размер иконок: **48–256**. По умолчанию — 4 столбца и 96 px. Это предварительная сборка: держи исходный hbmenu под рукой для возврата.
 
-Since C11 threads are used, building for the PC may fail if C11 threads are not available.
+## Сборка
 
-#### Credits
+Нужны devkitPro/devkitA64, libnx и зависимости, перечисленные в [DETAILS.ru.md](DETAILS.ru.md). Команда для Switch:
 
-* This uses code based on 3DS [new-hbmenu](https://github.com/fincs/new-hbmenu).
-* `libjpeg-turbo` is used for handling JPEG icons. This library doesn't support lossless JPEG (likewise for official sw which uses `libjpeg-turbo`).
-* `c11threads` is used for implement C11 Threads on Windows and macOS.
+```sh
+make nx TARGET=DuckDeck-hbmenu APP_VERSION=3.6.1-duckdeck-20261022
+```
+
+Готовый NRO и его заголовки проверены при подготовке сборки. Запись на SD и тест на реальной консоли этим не подтверждаются. [Протокол](BUILD-RELEASE.ru.md).
+
+## Авторство
+
+Основан на [switchbrew/nx-hbmenu](https://github.com/switchbrew/nx-hbmenu) v3.6.1, коммит `fd26270a4e4b6994886a57b0738d98229ab4094e`. Изменения сетки — **Jeronimo701**. История и авторство upstream сохранены.
+
+Код и модификации — [ISC](LICENSE.md), сторонние компоненты — [THIRD-PARTY.md](THIRD-PARTY.md). Это не официальный продукт Nintendo.
